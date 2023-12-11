@@ -22,7 +22,6 @@ namespace TowerDefence
         internal override void Update()
         {
             Move();
-            Collision();
         }
 
         //Flyttar skottet

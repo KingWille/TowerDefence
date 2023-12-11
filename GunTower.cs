@@ -10,7 +10,6 @@ namespace TowerDefence
 {
     internal class GunTower : Towers
     {
-        private float ShootTimer;
         private float ShootInterval;
         private Enemies Target;
         public GunTower(Vector2 pos) : base()
@@ -18,17 +17,18 @@ namespace TowerDefence
             Pos = pos;
             Tex = Assets.GunTower;
             Damage = 20;
-            AttackSpd = 2f;
+            AttackSpd = 0.6f;
+            Range = 300f;
             Rect = new Rectangle((int)Pos.X, (int)Pos.Y, Tex.Width, Tex.Height);
-            ShootTimer = 0.5f;
-            ShootInterval = ShootTimer;
+            ShootInterval = AttackSpd;
         }
 
-        public override void Update(Enemies[] EnemyArray)
+        public override void Update(Enemies[] EnemyArray, bool TurnActivated)
         {
-            
+            //Hittar ett target till tornet
             FindTarget(EnemyArray);
 
+            //Kollar om skottet har träffat tornet och tar bort det
             for(int i = 0; i < Attacks.Count; i++)
             {
                 if (Attacks[i] != null)
@@ -40,22 +40,27 @@ namespace TowerDefence
                 }
             }
 
-            foreach(var r in Attacks)
+            if (TurnActivated)
             {
-                r.Update();
-            }
+                //Uppdaterar skotten
+                foreach (var r in Attacks)
+                {
+                    r.Update();
+                }
 
-            Shoot();
+                //Hur ofta man ska skjuta
+                Shoot();
+            }
         }
 
         //Hur tornet skjuter
         protected override void Shoot()
         {
-            ShootTimer -= Globals.DeltaTime;
+            AttackSpd -= Globals.DeltaTime;
 
-            if(ShootTimer < 0)
+            if(AttackSpd < 0)
             {
-                ShootTimer = ShootInterval;
+                AttackSpd = ShootInterval;
 
                 if(Target != null)
                 {
@@ -71,8 +76,14 @@ namespace TowerDefence
             {
                 if (EnemyArray[i] != null)
                 {
-                    Target = EnemyArray[i];
-                    break;
+                    Vector2 newVector = EnemyArray[i].Pos - Pos;
+                    float DistanceToTarget = (float)Math.Sqrt(Math.Pow(newVector.X, 2) + Math.Pow(newVector.Y, 2));
+
+                    if (DistanceToTarget <= Range)
+                    {
+                        Target = EnemyArray[i];
+                        break;
+                    }
                 }
             }
 

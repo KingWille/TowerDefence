@@ -48,6 +48,8 @@ namespace TowerDefence
                 Upgraded = true;
             }
 
+            CheckDead();
+
             //Uppdaterar fienderna
             foreach(var e in EnemyArray)
             {
@@ -100,9 +102,11 @@ namespace TowerDefence
                     EnemyReleaseTimer = EnemyReleaseInterval;
                     EnemyArray[EnemyTracker] = new Enemies(rnd.Next(EnemyLevelMin, EnemyLevelMax + 1), Path);
                     EnemyTracker++;
-                    RemoveOutOfBounts();
+                    
                 }
             }
+
+            RemoveOutOfBounts();
         }
 
         //Öker svårighetsgraden efterhand som man spelar spelet
@@ -142,17 +146,34 @@ namespace TowerDefence
         {
             bool result = false;
             
-            foreach(var e in EnemyArray)
+            for(int i = 0; i < EnemyArray.Length; i++)
             {
-                if(e != null)
+                if(EnemyArray[i] != null)
                 {
                     result = true;
                 }
             }
 
+
             return result;
         }
 
+        //Kollar om fiender är döda
+        public void CheckDead()
+        {
+            for(int i = 0; i < EnemyArray.Length;i++)
+            {
+                if (EnemyArray[i] != null)
+                {
+                    if (EnemyArray[i].Health <= 0)
+                    {
+                        EnemyArray[i] = null;
+                    }
+                }
+            }
+        }
+
+        //Tar bort fiender som är utanför banan
         private void RemoveOutOfBounts()
         {
             for (int i = 0; i < EnemyArray.Length; i++)
@@ -169,6 +190,8 @@ namespace TowerDefence
                 }
             }
         }
+
+        //Hämtar fiende arrayn
         public Enemies[] GetEnemyArray()
         {
             return EnemyArray;

@@ -5,8 +5,9 @@
         internal static Texture2D StartMenu;
         internal static Texture2D RangeArea, GunTower, Bullet;
         internal static Texture2D GrassMap, Path, Water, Erase, Mountain, ToolBox, Sizes, Save, NextTurn, TowerBar, ShowHideBar;
+        internal static Texture2D GoldCoin, Heart;
         internal static Texture2D Enemies, RedBar, GreenBar;
-        internal static SpriteFont Font, FontUI;
+        internal static SpriteFont Font, FontUI, FontResources;
         internal static void SetAssets()
         {
             StartMenu = Globals.Content.Load<Texture2D>("StartMenu");
@@ -27,9 +28,12 @@
             ShowHideBar = Globals.Content.Load<Texture2D>("ShowHideBarButton");
             RangeArea = Globals.Content.Load<Texture2D>("RangeArea");
             Bullet = Globals.Content.Load<Texture2D>("Bullet");
+            GoldCoin = Globals.Content.Load<Texture2D>("GoldCoin");
+            Heart = Globals.Content.Load<Texture2D>("Heart");
 
             Font = Globals.Content.Load<SpriteFont>("Font");
             FontUI = Globals.Content.Load<SpriteFont>("FontUI");
+            FontResources = Globals.Content.Load<SpriteFont>("FontResources");
         }
     }
 }

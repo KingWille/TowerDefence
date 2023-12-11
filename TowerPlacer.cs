@@ -92,6 +92,7 @@ namespace TowerDefence
                     if(t is GunTower)
                     {
                         NewTower = new GunTower(new Vector2(Input.currentMouseState.X, Input.currentMouseState.Y));
+                        NewTower.Selected = true;
                     }
                 }
             }
@@ -103,6 +104,7 @@ namespace TowerDefence
 
             if(NewTower != null && Input.HasBeenClicked() && NewTower.Rect.X < BarPos.X)
             {
+                NewTower.Selected = false;
                 PlacedTowers.Add(NewTower);
                 NewTower = null;
             }

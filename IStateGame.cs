@@ -9,13 +9,14 @@ namespace TowerDefence
 {
     internal class IStateGame : IStateHandler
     {
-        Path[] PathArray;
-        Water[] WaterArray;
-        Mountain[] MountainArray;
-        SimplePath Path;
-        EnemyGenerator EG;
-        UserInterface UI;
-        RenderTarget2D TopLevel, RegTowers, WaterTer, WatTowers, MountainTer, MountTow;
+        private Resources Resource;
+        private Path[] PathArray;
+        private Water[] WaterArray;
+        private Mountain[] MountainArray;
+        private SimplePath Path;
+        private EnemyGenerator EG;
+        private UserInterface UI;
+        private RenderTarget2D TopLevel, RegTowers, WaterTer, WatTowers, MountainTer, MountTow;
         internal List<Towers> Towers, WaterTowers, MountainTowers;
         public IStateGame(GraphicsDevice GD) 
         {
@@ -24,6 +25,7 @@ namespace TowerDefence
             ReadFromJson("CreatedLevel.json");
             EG = new EnemyGenerator(Path);
             UI = new UserInterface(EG);
+            Resource = new Resources();
 
             TopLevel = new RenderTarget2D(Globals.Device, (int)Globals.WindowSize.X, (int)Globals.WindowSize.Y);
             RegTowers = new RenderTarget2D(Globals.Device, (int)Globals.WindowSize.X, (int)Globals.WindowSize.Y);
@@ -58,10 +60,11 @@ namespace TowerDefence
 
             EG.Draw();
             UI.Draw();
+            Resource.Draw();
 
             foreach (var t in Towers)
             {
-                t.Update(EG.GetEnemyArray());
+                t.Update(EG.GetEnemyArray(), EG.TurnActivated);
             }
 
             Globals.SpriteBatch.Draw(Assets.GrassMap, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);

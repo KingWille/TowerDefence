@@ -25,7 +25,7 @@ namespace TowerDefence
             SourceRowIndex = index;
             Path = path;
             PathIndex = 0;
-            Speed = 0.5f;
+            Speed = 0.4f;
 
             Tex = Assets.Enemies;
             RedBar = Assets.RedBar;
