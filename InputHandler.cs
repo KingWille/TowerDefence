@@ -11,13 +11,26 @@ namespace TowerDefence
     internal class InputHandler
     {
         private KeyboardState currentPressedKey, wasPressedKey;
+        internal MouseState currentMouseState, wasMouseState;
 
+
+        public MouseState GetMouseState()
+        {
+            wasMouseState = currentMouseState;
+            currentMouseState = Mouse.GetState();
+            return currentMouseState;
+        }
         //Berättar vilken tangent som trycks ner
         public KeyboardState GetState()
         {
             wasPressedKey = currentPressedKey;
             currentPressedKey = Keyboard.GetState();
             return currentPressedKey;
+        }
+
+        public bool HasBeenClicked()
+        {
+            return wasMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released;
         }
         //Försäkrar programmet att man måste släppa tangenten och trycka igen för att något annat ska hända
         public bool HasBeenPressed(Keys key)

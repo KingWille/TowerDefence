@@ -38,6 +38,7 @@
             Globals.Content = Content;
             Globals.SpriteBatch = _spriteBatch;
             Globals.Input = new InputHandler();
+            Globals.Device = GraphicsDevice;
 
             Assets.SetAssets();
             

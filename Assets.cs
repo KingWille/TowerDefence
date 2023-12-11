@@ -3,14 +3,14 @@
     internal class Assets
     {
         internal static Texture2D StartMenu;
-        internal static Texture2D GunTower;
-        internal static Texture2D GrassMap, Path, Water, Erase, Mountain, ToolBox, Sizes, Save;
-        internal static SpriteFont Font;
+        internal static Texture2D RangeArea, GunTower, Bullet;
+        internal static Texture2D GrassMap, Path, Water, Erase, Mountain, ToolBox, Sizes, Save, NextTurn, TowerBar, ShowHideBar;
+        internal static Texture2D Enemies, RedBar, GreenBar;
+        internal static SpriteFont Font, FontUI;
         internal static void SetAssets()
         {
             StartMenu = Globals.Content.Load<Texture2D>("StartMenu");
             GunTower = Globals.Content.Load<Texture2D>("GunTower");
-            Font = Globals.Content.Load<SpriteFont>("Font");
             GrassMap = Globals.Content.Load<Texture2D>("GrassMap");
             Water = Globals.Content.Load<Texture2D>("WaterTile");
             Mountain = Globals.Content.Load<Texture2D>("StoneTile");
@@ -19,8 +19,17 @@
             ToolBox = Globals.Content.Load<Texture2D>("ToolBox");
             Sizes = Globals.Content.Load<Texture2D>("SizeSelection");
             Save = Globals.Content.Load<Texture2D>("SaveButton");
+            Enemies = Globals.Content.Load<Texture2D>("Enemies");
+            RedBar = Globals.Content.Load<Texture2D>("RedHPBar");
+            GreenBar = Globals.Content.Load<Texture2D>("GreenHPBar");
+            NextTurn = Globals.Content.Load<Texture2D>("NextTurnButton");
+            TowerBar = Globals.Content.Load<Texture2D>("TowerBar");
+            ShowHideBar = Globals.Content.Load<Texture2D>("ShowHideBarButton");
+            RangeArea = Globals.Content.Load<Texture2D>("RangeArea");
+            Bullet = Globals.Content.Load<Texture2D>("Bullet");
 
-
+            Font = Globals.Content.Load<SpriteFont>("Font");
+            FontUI = Globals.Content.Load<SpriteFont>("FontUI");
         }
     }
 }

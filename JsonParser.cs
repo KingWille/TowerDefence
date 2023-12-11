@@ -23,6 +23,9 @@ namespace TowerDefence
 
             //Sätter hela filen som ett JsonObject
             wholeJFileObj = JObject.Load(reader);
+
+            file.Close();
+            reader.Close();
         }
 
         public static Rectangle GetRectangle(string fileName, string propertyName)

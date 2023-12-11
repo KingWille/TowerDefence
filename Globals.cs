@@ -12,6 +12,8 @@ namespace TowerDefence
     {
         public static ContentManager Content { get; set; }
         public static SpriteBatch SpriteBatch { get; set; }
+
+        public static GraphicsDevice Device { get; set; }
         public static float DeltaTime {  get; set; }
         public static float DeltaTimeMilli {  get; set; }
 
