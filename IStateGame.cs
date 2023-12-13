@@ -10,7 +10,6 @@ namespace TowerDefence
 {
     internal class IStateGame : IStateHandler
     {
-        private Resources Resource;
         private Path[] PathArray;
         private Water[] WaterArray;
         private Mountain[] MountainArray;
@@ -25,9 +24,8 @@ namespace TowerDefence
             ReadFromJson("CreatedLevel.json");
             EG = new EnemyGenerator(Path);
             UI = new UserInterface(EG);
-            Resource = new Resources();
             UI.SetTerArrays(WaterArray, MountainArray, PathArray);
-            UI.DrawRegTower();
+            UI.DrawAllRT();
         }
 
         internal override void Update(Game1 game)
@@ -53,7 +51,6 @@ namespace TowerDefence
 
             EG.Draw();
             UI.Draw();
-            Resource.Draw();
 
 
             foreach (var t in Towers)

@@ -20,7 +20,10 @@ namespace TowerDefence
         {
             Tex = tex;
             Dmg = damage;
-            Pos = pos;
+
+            Origin = new Vector2(Tex.Width / 2, Tex.Height / 2);
+
+            Pos = new Vector2(pos.X + Assets.GunTower.Width / 2, pos.Y + Assets.GunTower.Height / 2);
             Target = target;
             Rect = new Rectangle((int)Pos.X, (int)Pos.Y, Tex.Width, Tex.Height);
             Speed = 20f;
@@ -33,8 +36,6 @@ namespace TowerDefence
         {
             Vector2 CalcRot = Target.Pos - Pos;
             Rotation = (float)Math.Atan2(CalcRot.Y, CalcRot.X);
-
-            Origin = new Vector2(Tex.Width / 2, Tex.Height / 2);
 
             Globals.SpriteBatch.Draw(Tex, Pos, null, Color.White, Rotation, Origin, 1f, SpriteEffects.None, 1f);
         }
@@ -50,11 +51,7 @@ namespace TowerDefence
             Pos.Y += CalcVector.Y * Speed;
             Rect.X = (int)Pos.X;
             Rect.Y = (int)Pos.Y;
-
-
         }
-
-
         //Vad som händer vid kollison
         internal bool Collision()
         {

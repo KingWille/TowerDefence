@@ -104,7 +104,7 @@ namespace TowerDefence
                 }
             }
 
-            RemoveOutOfBounts();
+            RemoveOutOfBounds();
         }
 
         //Öker svårighetsgraden efterhand som man spelar spelet
@@ -165,6 +165,7 @@ namespace TowerDefence
                 {
                     if (EnemyArray[i].Health <= 0)
                     {
+                        Resources.Gold += EnemyArray[i].GoldValue;
                         EnemyArray[i] = null;
                     }
                 }
@@ -172,7 +173,7 @@ namespace TowerDefence
         }
 
         //Tar bort fiender som är utanför banan
-        private void RemoveOutOfBounts()
+        private void RemoveOutOfBounds()
         {
             for (int i = 0; i < EnemyArray.Length; i++)
             {
@@ -182,6 +183,7 @@ namespace TowerDefence
                     {
                         if (EnemyArray[i].Pos.X > Globals.WindowSize.X || EnemyArray[i].Pos.Y > Globals.WindowSize.Y || EnemyArray[i].Pos.X < 0 || EnemyArray[i].Pos.Y < 0)
                         {
+                            Resources.Lives -= 1;
                             EnemyArray[i] = null;
                         }
                     }

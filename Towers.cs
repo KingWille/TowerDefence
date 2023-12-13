@@ -10,7 +10,7 @@ namespace TowerDefence
     internal abstract class Towers
     {
         protected int Damage;
-        protected float AttackSpd, Range, Rotation, ShootInterval;
+        protected float Scale, AttackSpd, Range, Rotation, ShootInterval;
 
         protected Vector2 Origin;
 
@@ -18,6 +18,7 @@ namespace TowerDefence
         protected Enemies Target;
 
         internal bool Selected;
+        internal int Cost;
 
         internal Rectangle Rect;
         internal Vector2 Pos;
@@ -60,6 +61,14 @@ namespace TowerDefence
                 //Hur ofta man ska skjuta
                 Shoot();
             }
+            else
+            {
+                for(int i = 0; i < Attacks.Count(); i++)
+                {
+                    Attacks.RemoveAt(i);
+                    i--;
+                }
+            }
         }
 
 
@@ -70,7 +79,7 @@ namespace TowerDefence
 
             if(Selected)
             {
-                Globals.SpriteBatch.Draw(RangeArea, new Vector2(Pos.X + Tex.Width / 2 - RangeArea.Width * 1.5f, Pos.Y + Tex.Height / 2 - RangeArea.Height * 1.5f), null, RangeColor, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.9f);
+                Globals.SpriteBatch.Draw(RangeArea, new Vector2(Pos.X + Tex.Width / 2 - RangeArea.Width * (Scale / 2), Pos.Y + Tex.Height / 2 - RangeArea.Height * (Scale / 2)), null, RangeColor, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0.7f);
             }
         }
 
@@ -81,7 +90,7 @@ namespace TowerDefence
             Vector2 CalcVector = Pos - target.Pos;
             Rotation = (float)Math.Atan2(CalcVector.Y, CalcVector.X) - (float)Math.PI / 2;
 
-            Globals.SpriteBatch.Draw(Tex, new Vector2(Pos.X + Origin.X, Pos.Y + Origin.Y), null, Color.White, Rotation, Origin, 1f, SpriteEffects.None, 1f);
+            Globals.SpriteBatch.Draw(Tex, new Vector2(Pos.X + Origin.X, Pos.Y + Origin.Y), null, Color.White, Rotation, Origin, 1f, SpriteEffects.None, 0.5f);
 
             for(int i = 0;  i < Attacks.Count; i++)
             {
@@ -100,7 +109,7 @@ namespace TowerDefence
 
                 if (Target != null)
                 {
-                    Attacks.Add(new RangedAttacks(Damage, Pos, Target, Assets.Bullet));
+                    Attacks.Add(new RangedAttacks(Damage, Pos, Target, BulletTex));
                 }
             }
         }
@@ -119,6 +128,10 @@ namespace TowerDefence
                     {
                         Target = EnemyArray[i];
                         break;
+                    }
+                    else
+                    {
+                        Target = null;
                     }
                 }
             }

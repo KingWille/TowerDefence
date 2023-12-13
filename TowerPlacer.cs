@@ -12,10 +12,11 @@ namespace TowerDefence
         private List<Towers> TowersMenu;
         private List<Towers> PlacedTowers;
 
+        private Resources Resource;
         private Water[] WaterTer;
         private Mountain[] MountainTer;
         private Path[] PathTer;
-        private Towers? NewTower;
+        internal Towers? NewTower;
 
         private InputHandler Input;
         private RenderTarget2D RegTowRT, WatTowRT, MtnTowRT;
@@ -23,18 +24,21 @@ namespace TowerDefence
         {
             //Sätter värden
             Spacer = 53;
-            FirstSpacer = 65;
+            FirstSpacer = 60;
             BarPos = barPos;
             XPosLeft = Assets.TowerBar.Width / 2 - Assets.GunTower.Width - 5;
-            XPosRight = Assets.TowerBar.Width / 2 + Assets.GunTower.Width + 5;
+            XPosRight = Assets.TowerBar.Width / 2 + 5;
 
             //instansierar objekt
+            Resource = new Resources();
             Input = new InputHandler();
             TowersMenu = new List<Towers>();
             PlacedTowers = new List<Towers>();
             NewTower = null;
 
             TowersMenu.Add(new GunTower(new Vector2(barPos.X + XPosLeft, barPos.Y + FirstSpacer)));
+            TowersMenu.Add(new WaterSprayTower(new Vector2(barPos.X + XPosRight, barPos.Y + FirstSpacer)));
+            TowersMenu.Add(new SniperTower(new Vector2(barPos.X + XPosLeft, barPos.Y + FirstSpacer + Spacer)));
 
             RegTowRT = new RenderTarget2D(Globals.Device, (int)Globals.WindowSize.X, (int)Globals.WindowSize.Y);
             WatTowRT = new RenderTarget2D(Globals.Device, (int)Globals.WindowSize.X, (int)Globals.WindowSize.Y);
@@ -46,6 +50,7 @@ namespace TowerDefence
             Input.GetMouseState();
 
             NewTowerCreated();
+            RemoveNewtower();
             PlaceTowers();
 
             if(NewTower != null)
@@ -71,8 +76,10 @@ namespace TowerDefence
             {
                 NewTower.Draw();
                 Debug.WriteLine(CanPlace(NewTower));
-
             }
+
+            DrawCost();
+            Resource.Draw();
 
         }
 
@@ -115,12 +122,37 @@ namespace TowerDefence
             {
                 if(t.Rect.Contains(Input.currentMouseState.Position) && Input.HasBeenClicked())
                 {
-                    if(t is GunTower)
+                    if(t is GunTower && Resources.Gold >= TowersMenu[0].Cost)
                     {
                         NewTower = new GunTower(new Vector2(Input.currentMouseState.X, Input.currentMouseState.Y));
                         NewTower.Selected = true;
                     }
+                    else if(t is WaterSprayTower && Resources.Gold >= TowersMenu[1].Cost)
+                    {
+                        NewTower = new WaterSprayTower(new Vector2(Input.currentMouseState.X, Input.currentMouseState.Y));
+                        NewTower.Selected = true;
+                    }
+                    else if(t is SniperTower && Resources.Gold >= TowersMenu[2].Cost)
+                    {
+                        NewTower = new SniperTower(new Vector2(Input.currentMouseState.X, Input.currentMouseState.Y));
+                        NewTower.Selected = true;
+                    }
+
+                    if(NewTower != null)
+                    {
+                        Resources.Gold -= NewTower.Cost;
+                    }
                 }
+            }
+        }
+
+        //Tar bort tornet man valde om man trycker på högerklick
+        private void RemoveNewtower()
+        {
+            if(NewTower != null && Input.currentMouseState.RightButton == ButtonState.Pressed)
+            {
+                Resources.Gold += NewTower.Cost;
+                NewTower = null;
             }
         }
 
@@ -163,26 +195,34 @@ namespace TowerDefence
         }
 
         //Definerar rendertarget för vetten torn
-        private void DrawWatTowers()
+        internal void DrawWatTowers()
         {
             Globals.Device.SetRenderTarget(WatTowRT);
             Globals.Device.Clear(Color.Transparent);
+            Globals.SpriteBatch.Begin();
 
             foreach (var w in WaterTer)
             {
                 w.Draw();
             }
 
+            Globals.SpriteBatch.End();
             Globals.Device.SetRenderTarget(null);
         }
 
         //Definerar rendertarget för bergs torn
-        private void DrawMtnTowers()
+        internal void DrawMtnTowers()
         {
             Globals.Device.SetRenderTarget(MtnTowRT);
             Globals.Device.Clear(Color.Transparent);
+            Globals.SpriteBatch.Begin();
 
+            foreach(var m in MountainTer)
+            {
+                m.Draw();
+            }
 
+            Globals.SpriteBatch.End();
             Globals.Device.SetRenderTarget(null);
         }
 
@@ -205,6 +245,14 @@ namespace TowerDefence
                 {
                     RegTowRT.GetData(0, t.Rect, pixels, 0, pixels.Length);
                 }
+                else if(t is WaterSprayTower)
+                {
+                    WatTowRT.GetData(0, t.Rect, pixels, 0, pixels.Length);
+                }
+                else if(t is SniperTower)
+                {
+                    MtnTowRT.GetData(0, t.Rect, pixels, 0, pixels.Length);
+                }
             }
             else
             {
@@ -212,18 +260,48 @@ namespace TowerDefence
                 return false;
             }
 
-            for (int i = 0; i < pixels.Length; ++i)
+            //Kollar om tornet är på något transparent
+            if(t is GunTower)
             {
-                if (pixels[i].A > 0.0f && pixels2[i].A > 0.0f)
+                for (int i = 0; i < pixels.Length; ++i)
                 {
-                    t.RangeColor = Color.Red;
-                    return false;
+                    if (pixels[i].A > 0.0f && pixels2[i].A > 0.0f)
+                    {
+                        t.RangeColor = Color.Red;
+                        return false;
+                    }
+
                 }
-                
+
+                t.RangeColor = Color.White;
+                return true;
+            }
+            //Kollar att tornet inte är på något transparent
+            else
+            {
+                for (int i = 0; i < pixels.Length; ++i)
+                {
+                    if (pixels[i].A > 0.0f && pixels2[i].A > 0.0f)
+                    {
+                        t.RangeColor = Color.White;
+                        return true;
+                    }
+
+                }
+
+                t.RangeColor = Color.Red;
+                return false;
             }
 
-            t.RangeColor = Color.White;
-            return true;
+        }
+
+        private void DrawCost()
+        {
+           foreach(var t in TowersMenu)
+           {
+                Globals.SpriteBatch.Draw(Assets.GoldCoin, new Vector2(t.Pos.X + Assets.GoldCoin.Width / 3, t.Pos.Y + t.Tex.Height + 2), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+                Globals.SpriteBatch.DrawString(Assets.FontCost, $"{t.Cost}", new Vector2(t.Pos.X + Assets.GoldCoin.Width, t.Pos.Y + t.Tex.Height + 2), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+           }
         }
     }
 }

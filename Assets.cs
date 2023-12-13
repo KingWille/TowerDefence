@@ -3,11 +3,11 @@
     internal class Assets
     {
         internal static Texture2D StartMenu;
-        internal static Texture2D RangeArea, GunTower, Bullet, WaterTower, SniperTower;
+        internal static Texture2D RangeArea, GunTower, Bullet, WaterTower, WaterSpray, SniperTower;
         internal static Texture2D GrassMap, Path, Water, Erase, Mountain, ToolBox, Sizes, Save, NextTurn, TowerBar, ShowHideBar;
         internal static Texture2D GoldCoin, Heart;
         internal static Texture2D Enemies, RedBar, GreenBar;
-        internal static SpriteFont Font, FontUI, FontResources;
+        internal static SpriteFont Font, FontUI, FontResources, FontCost;
         internal static void SetAssets()
         {
             StartMenu = Globals.Content.Load<Texture2D>("StartMenu");
@@ -32,10 +32,12 @@
             Heart = Globals.Content.Load<Texture2D>("Heart");
             WaterTower = Globals.Content.Load<Texture2D>("WaterTower");
             SniperTower = Globals.Content.Load<Texture2D>("Sniper");
+            WaterSpray = Globals.Content.Load<Texture2D>("WaterSpray");
 
             Font = Globals.Content.Load<SpriteFont>("Font");
             FontUI = Globals.Content.Load<SpriteFont>("FontUI");
             FontResources = Globals.Content.Load<SpriteFont>("FontResources");
+            FontCost = Globals.Content.Load<SpriteFont>("CostFont");
         }
     }
 }

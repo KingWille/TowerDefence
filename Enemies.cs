@@ -4,9 +4,9 @@ namespace TowerDefence
 {
     internal class Enemies
     {
-        private int Level, GoldValue, SourceRowIndex, OnePercentHP;
+        private int Level, SourceRowIndex, OnePercentHP;
         private float Speed, StartAngle;
-        internal int Health;
+        internal int Health, GoldValue;
         internal float PathIndex;
         internal Rectangle Rect;
         internal Vector2 Pos;
@@ -21,7 +21,7 @@ namespace TowerDefence
             OnePercentHP = Health / 100;
 
             Level = index + 1;
-            GoldValue = index * 50;
+            GoldValue = Level * 50;
             SourceRowIndex = index;
             Path = path;
             PathIndex = 0;

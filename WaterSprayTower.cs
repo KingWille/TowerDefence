@@ -12,11 +12,15 @@ namespace TowerDefence
         {
             Pos = pos;
             Tex = Assets.WaterTower;
-            Damage = 1/15;
+            BulletTex = Assets.WaterSpray;
+            Damage = 1;
             AttackSpd = 1/60f;
             Range = 300f;
+
             Rect = new Rectangle((int)Pos.X, (int)Pos.Y, Tex.Width, Tex.Height);
             ShootInterval = AttackSpd;
+            Scale = (int)Range / 100;
+            Cost = 250;
         }
     }
 }

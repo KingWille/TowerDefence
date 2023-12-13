@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TowerDefence
 {
-    internal class GunTower : Towers
+    internal class SniperTower : Towers
     {
-        public GunTower(Vector2 pos) : base()
+        public SniperTower(Vector2 pos) : base()
         {
             Pos = pos;
-            Tex = Assets.GunTower;
+            Tex = Assets.SniperTower;
             BulletTex = Assets.Bullet;
-            Damage = 20;
-            AttackSpd = 0.6f;
-            Range = 300f;
+            Damage = 50;
+            AttackSpd = 2f;
+            Range = 2000;
             Rect = new Rectangle((int)Pos.X, (int)Pos.Y, Tex.Width, Tex.Height);
             ShootInterval = AttackSpd;
-            Scale = (int)Range / 100;
-            Cost = 150;
+            Scale = 1;
+            Cost = 400;
         }
     }
 }

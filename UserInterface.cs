@@ -39,6 +39,11 @@
         {
             ShowHideBar();
             EnemyArray = EG.GetEnemyArray();
+
+            if(Placer.NewTower != null)
+            {
+                ShowHide = false;
+            }
         }
         public void Draw()
         {
@@ -115,9 +120,11 @@
             Placer.SetTerArrays(WatTer, MountTer, PathTer);        
         }
 
-        internal void DrawRegTower()
+        internal void DrawAllRT()
         {
             Placer.DrawRegTowers();
+            Placer.DrawWatTowers();
+            Placer.DrawMtnTowers();
         }
     }
 }

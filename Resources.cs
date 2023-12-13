@@ -2,7 +2,7 @@
 {
     internal class Resources
     {
-        internal int Gold, Lives;
+        static internal int Gold, Lives;
         private Texture2D Coins, Hearts;
         private SpriteFont Font;
         private Vector2 Pos;

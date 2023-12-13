@@ -25,6 +25,13 @@
 /processorParam:TextureFormat=Color
 /build:Bullet.png
 
+#begin CostFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:CostFont.spritefont
+
 #begin Enemies.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -273,6 +280,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:TowerBar.png
+
+#begin WaterSpray.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:WaterSpray.png
 
 #begin WaterTile.png
 /importer:TextureImporter
