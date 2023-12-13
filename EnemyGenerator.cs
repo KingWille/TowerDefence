@@ -64,8 +64,6 @@ namespace TowerDefence
             {
                 ReleaseEnemies();
             }
-
-            Debug.WriteLine(EnemyArray[1] == null);
         }
 
         public void Draw()

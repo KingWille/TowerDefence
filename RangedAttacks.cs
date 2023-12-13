@@ -7,17 +7,29 @@ using System.Threading.Tasks;
 
 namespace TowerDefence
 {
-    internal abstract class RangedAttacks
+    internal class RangedAttacks
     {
-        protected Texture2D Tex;
-        protected Vector2 Pos, Origin;
-        protected Rectangle Rect;
-        protected float Speed, Rotation;
-        protected int Dmg;
-        protected Enemies Target;
+        private Texture2D Tex;
+        private Vector2 Pos, Origin;
+        private Rectangle Rect;
+        private float Speed, Rotation;
+        private int Dmg;
+        private Enemies Target;
 
-        internal abstract void Update();
-        internal virtual void Draw()
+        public RangedAttacks(int damage, Vector2 pos, Enemies target, Texture2D tex)
+        {
+            Tex = tex;
+            Dmg = damage;
+            Pos = pos;
+            Target = target;
+            Rect = new Rectangle((int)Pos.X, (int)Pos.Y, Tex.Width, Tex.Height);
+            Speed = 20f;
+        }
+        internal void Update()
+        {
+            Move();
+        }
+        internal void Draw()
         {
             Vector2 CalcRot = Target.Pos - Pos;
             Rotation = (float)Math.Atan2(CalcRot.Y, CalcRot.X);
@@ -28,11 +40,23 @@ namespace TowerDefence
         }
 
         //Förflyttning av skottet
-        internal abstract void Move();
+        internal void Move()
+        {
+            Vector2 CalcVector = Target.Pos - Pos;
+
+            CalcVector.Normalize();
+
+            Pos.X += CalcVector.X * Speed;
+            Pos.Y += CalcVector.Y * Speed;
+            Rect.X = (int)Pos.X;
+            Rect.Y = (int)Pos.Y;
+
+
+        }
 
 
         //Vad som händer vid kollison
-        internal virtual bool Collision()
+        internal bool Collision()
         {
             if(Target.Rect.Intersects(Rect))
             {

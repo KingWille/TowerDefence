@@ -48,6 +48,7 @@
 
 
             Globals.WindowSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            Globals.WindowRect = new Rectangle(0, 0, (int)Globals.WindowSize.X, (int)Globals.WindowSize.Y);
             StateHandler.Add(GameState.start, new IStateStartMenu());
             StateHandler.Add(GameState.leveleditor, new IStateLevelEditor());
             StateHandler.Add(GameState.game, new IStateGame(GraphicsDevice));
@@ -66,13 +67,8 @@
         }
 
         protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.Transparent);
-
-            _spriteBatch.Begin(SpriteSortMode.FrontToBack);
+        {   
             StateHandler[state].Draw(this);
-            _spriteBatch.End();
-
             base.Draw(gameTime);
         }
     }

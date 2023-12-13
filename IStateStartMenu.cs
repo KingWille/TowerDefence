@@ -17,7 +17,12 @@ namespace TowerDefence
         }
         internal override void Draw(Game1 game)
         {
+            Globals.Device.Clear(Color.CornflowerBlue);
+            Globals.SpriteBatch.Begin();
+
             menu.Draw();
+
+            Globals.SpriteBatch.End();
         }
     }
 }

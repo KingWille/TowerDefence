@@ -10,24 +10,57 @@ namespace TowerDefence
     internal abstract class Towers
     {
         protected int Damage;
-        protected float AttackSpd;
-        protected float Range;
-        internal bool Selected;
-        protected float Rotation;
+        protected float AttackSpd, Range, Rotation, ShootInterval;
+
         protected Vector2 Origin;
+
         protected List<RangedAttacks> Attacks;
-        internal Texture2D Tex, RangeArea;
+        protected Enemies Target;
+
+        internal bool Selected;
+
         internal Rectangle Rect;
         internal Vector2 Pos;
+        internal Color RangeColor;
+
+        internal Texture2D Tex, BulletTex, RangeArea;
+        internal Enemies[] EnemyArray;
 
         protected Towers()
         {
             RangeArea = Assets.RangeArea;
             Selected = false;
             Attacks = new List<RangedAttacks>();
+            RangeColor = Color.White;
         }
 
-        public abstract void Update(Enemies[] EnemyArray, bool TurnActivated);
+        public virtual void Update(bool TurnActivated)
+        {
+
+            //Kollar om skottet har träffat tornet och tar bort det
+            for (int i = 0; i < Attacks.Count; i++)
+            {
+                if (Attacks[i] != null)
+                {
+                    if (Attacks[i].Collision())
+                    {
+                        Attacks.RemoveAt(i);
+                    }
+                }
+            }
+
+            if (TurnActivated)
+            {
+                //Uppdaterar skotten
+                foreach (var r in Attacks)
+                {
+                    r.Update();
+                }
+
+                //Hur ofta man ska skjuta
+                Shoot();
+            }
+        }
 
 
         //Vanlig utritning av tornen
@@ -37,7 +70,7 @@ namespace TowerDefence
 
             if(Selected)
             {
-                Globals.SpriteBatch.Draw(RangeArea, new Vector2(Pos.X + Tex.Width / 2 - RangeArea.Width * 1.5f, Pos.Y + Tex.Height / 2 - RangeArea.Height * 1.5f), null, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.9f);
+                Globals.SpriteBatch.Draw(RangeArea, new Vector2(Pos.X + Tex.Width / 2 - RangeArea.Width * 1.5f, Pos.Y + Tex.Height / 2 - RangeArea.Height * 1.5f), null, RangeColor, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0.9f);
             }
         }
 
@@ -50,20 +83,63 @@ namespace TowerDefence
 
             Globals.SpriteBatch.Draw(Tex, new Vector2(Pos.X + Origin.X, Pos.Y + Origin.Y), null, Color.White, Rotation, Origin, 1f, SpriteEffects.None, 1f);
 
-            if (Selected)
-            {
-                Globals.SpriteBatch.Draw(RangeArea, new Vector2(Pos.X + Tex.Width / 2 - RangeArea.Width / 2, Pos.Y + Tex.Height / 2 - RangeArea.Height / 2), null, Color.White, Rotation, Origin, 2f, SpriteEffects.None, 0.9f);
-            }
-
             for(int i = 0;  i < Attacks.Count; i++)
             {
                 Attacks[i].Draw();
             }
         }
 
+        //Hur tornet skjuter
+        protected virtual void Shoot()
+        {
+            AttackSpd -= Globals.DeltaTime;
+
+            if (AttackSpd < 0)
+            {
+                AttackSpd = ShootInterval;
+
+                if (Target != null)
+                {
+                    Attacks.Add(new RangedAttacks(Damage, Pos, Target, Assets.Bullet));
+                }
+            }
+        }
+
+        //Hittar nästa mål för attacken
+        public virtual void FindTarget()
+        {
+            for (int i = 0; i < EnemyArray.Length; i++)
+            {
+                if (EnemyArray[i] != null)
+                {
+                    Vector2 newVector = EnemyArray[i].Pos - Pos;
+                    float DistanceToTarget = (float)Math.Sqrt(Math.Pow(newVector.X, 2) + Math.Pow(newVector.Y, 2));
+
+                    if (DistanceToTarget <= Range)
+                    {
+                        Target = EnemyArray[i];
+                        break;
+                    }
+                }
+            }
+            
 
 
-        protected abstract void Shoot();
+            if (Target == null)
+            {
+                Draw();
+            }
+            else
+            {
+                Draw(Target);
+            }
+        }
+
+        //Hämtar enemyArrayn;
+        public virtual void SetEnemyArray(Enemies[] enemyArray)
+        {
+            EnemyArray = enemyArray;
+        }
 
     }
 }

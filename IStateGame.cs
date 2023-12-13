@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json.Bson;
 using SharpDX.Direct2D1;
 using Spline;
@@ -16,8 +17,7 @@ namespace TowerDefence
         private SimplePath Path;
         private EnemyGenerator EG;
         private UserInterface UI;
-        private RenderTarget2D TopLevel, RegTowers, WaterTer, WatTowers, MountainTer, MountTow;
-        internal List<Towers> Towers, WaterTowers, MountainTowers;
+        internal List<Towers> Towers;
         public IStateGame(GraphicsDevice GD) 
         {
             Path = new SimplePath(GD);
@@ -26,50 +26,49 @@ namespace TowerDefence
             EG = new EnemyGenerator(Path);
             UI = new UserInterface(EG);
             Resource = new Resources();
-
-            TopLevel = new RenderTarget2D(Globals.Device, (int)Globals.WindowSize.X, (int)Globals.WindowSize.Y);
-            RegTowers = new RenderTarget2D(Globals.Device, (int)Globals.WindowSize.X, (int)Globals.WindowSize.Y);
-
+            UI.SetTerArrays(WaterArray, MountainArray, PathArray);
+            UI.DrawRegTower();
         }
 
         internal override void Update(Game1 game)
         {
             EG.Update();
             UI.Update();
-
             Towers = UI.GetTower();
+
+            foreach (var t in Towers)
+            {
+                t.SetEnemyArray(EG.GetEnemyArray());
+                t.Update(EG.TurnActivated);
+            }
+
 
         }
 
         internal override void Draw(Game1 game)
         {
-            foreach(var p in PathArray)
-            {
-                p.Draw();
-            }
-
-            foreach(var w in WaterArray)
-            {
-                w.Draw();
-            }
-
-            foreach(var m in MountainArray)
-            {
-                m.Draw();
-            }
+            Globals.Device.Clear(Color.CornflowerBlue);
+            Globals.SpriteBatch.Begin(SpriteSortMode.FrontToBack);
+            Globals.SpriteBatch.Draw(Assets.GrassMap, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
             EG.Draw();
             UI.Draw();
             Resource.Draw();
 
+
             foreach (var t in Towers)
             {
-                t.Update(EG.GetEnemyArray(), EG.TurnActivated);
+                t.FindTarget();
             }
 
-            Globals.SpriteBatch.Draw(Assets.GrassMap, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            Globals.SpriteBatch.End();
+
+
+
+
         }
 
+        //Hämtar information från Json filen
         public void ReadFromJson(string fileName)
         {
             List<Rectangle> Paths = JsonParser.GetRectanglesList(fileName, "Path");
@@ -100,50 +99,6 @@ namespace TowerDefence
                 Mountain mountain = new Mountain(Mountains[i]);
                 MountainArray[i] = mountain;
             }
-        }
-
-        private bool CanPlace(Towers t, RenderTarget2D RT)
-        {
-            Color[] pixels = new Color[t.Tex.Width * t.Tex.Height];
-            Color[] pixels2 = new Color[t.Tex.Width * t.Tex.Height];
-            t.Tex.GetData<Color>(pixels2);
-            RT.GetData(0, t.Rect, pixels, 0, pixels.Length);
-            for (int i = 0; i < pixels.Length; ++i)
-            {
-                if (pixels[i].A > 0.0f && pixels2[i].A > 0.0f)
-                    return false;
-            }
-            return true;
-        }
-
-        private void DrawTopLevel()
-        {
-            Globals.Device.SetRenderTarget(TopLevel);
-            Globals.Device.Clear(Color.Transparent);
-
-            foreach(var p in PathArray)
-            {
-                p.Draw();
-            }
-
-            Globals.Device.SetRenderTarget(null);
-        }
-
-        private void DrawRegTowers()
-        {
-            Globals.Device.SetRenderTarget(TopLevel);
-            Globals.Device.Clear(Color.Transparent);
-
-            
-            foreach (var t in Towers)
-            {
-                if(t != null)
-                {
-                    t.Draw();
-                }
-            }
-
-            Globals.Device.SetRenderTarget(null);
         }
     }
 }

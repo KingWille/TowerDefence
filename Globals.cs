@@ -18,6 +18,7 @@ namespace TowerDefence
         public static float DeltaTimeMilli {  get; set; }
 
         public static Vector2 WindowSize {  get; set; }
+        public static Rectangle WindowRect {  get; set; }
         public static InputHandler Input {  get; set; }
 
         public static void Update(GameTime gameTime)

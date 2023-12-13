@@ -3,7 +3,7 @@
     internal class Assets
     {
         internal static Texture2D StartMenu;
-        internal static Texture2D RangeArea, GunTower, Bullet;
+        internal static Texture2D RangeArea, GunTower, Bullet, WaterTower, SniperTower;
         internal static Texture2D GrassMap, Path, Water, Erase, Mountain, ToolBox, Sizes, Save, NextTurn, TowerBar, ShowHideBar;
         internal static Texture2D GoldCoin, Heart;
         internal static Texture2D Enemies, RedBar, GreenBar;
@@ -30,6 +30,8 @@
             Bullet = Globals.Content.Load<Texture2D>("Bullet");
             GoldCoin = Globals.Content.Load<Texture2D>("GoldCoin");
             Heart = Globals.Content.Load<Texture2D>("Heart");
+            WaterTower = Globals.Content.Load<Texture2D>("WaterTower");
+            SniperTower = Globals.Content.Load<Texture2D>("Sniper");
 
             Font = Globals.Content.Load<SpriteFont>("Font");
             FontUI = Globals.Content.Load<SpriteFont>("FontUI");

@@ -103,9 +103,21 @@
             }
         }
 
+        //Returnernar tornlistan
         internal List<Towers> GetTower()
         {
             return Placer.Update();
+        }
+
+        //Hämtar terrängen på mappen
+        internal void SetTerArrays(Water[] WatTer, Mountain[] MountTer, Path[] PathTer)
+        { 
+            Placer.SetTerArrays(WatTer, MountTer, PathTer);        
+        }
+
+        internal void DrawRegTower()
+        {
+            Placer.DrawRegTowers();
         }
     }
 }
