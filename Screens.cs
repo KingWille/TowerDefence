@@ -5,14 +5,13 @@
         protected Texture2D Tex;
         protected Vector2 Pos;
         protected int CurrentPoints;
-        protected Dictionary<string, int> HighScore;
+        protected List<string> HighScore;
 
-        protected Screens(Texture2D tex, Vector2 pos)
+        protected Screens()
         {
-            Tex = tex;
-            Pos = pos;
+            Pos = Vector2.Zero;
             CurrentPoints = 0;
-            HighScore = new Dictionary<string, int>();
+            HighScore = new List<string>();
         }
 
         internal abstract void Update();

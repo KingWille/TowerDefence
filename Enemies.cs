@@ -4,28 +4,40 @@ namespace TowerDefence
 {
     internal class Enemies
     {
-        private int Level, SourceRowIndex, OnePercentHP;
+        private int SourceRowIndex, OnePercentHP;
         private float Speed, StartAngle;
-        internal int Health, GoldValue;
-        internal float PathIndex;
-        internal Rectangle Rect;
-        internal Vector2 Pos;
         private Texture2D Tex, RedBar, GreenBar;
         private Rectangle HealthBarRectRed, HealthBarRectGreen;
         private Vector2 Origin;
         private SimplePath Path;
 
+        internal bool IsBoss{get; private set;}
+        internal int Level, Health, GoldValue, Damage;
+        internal float PathIndex;
+        internal Rectangle Rect;
+        internal Vector2 Pos;
+
         public Enemies(int index, SimplePath path)
         {
-            Health = (index + 1) * 100;
+            Level = index + 1;
+            Damage = Level;
+            Health = Level * 100;
             OnePercentHP = Health / 100;
 
-            Level = index + 1;
-            GoldValue = Level * 50;
+            GoldValue = Level * 30;
             SourceRowIndex = index;
             Path = path;
             PathIndex = 0;
-            Speed = 0.4f;
+            Speed = 0.5f;
+
+            if(Level == 5)
+            {
+                IsBoss = true;
+            }
+            else
+            {
+                IsBoss = false;
+            }
 
             Tex = Assets.Enemies;
             RedBar = Assets.RedBar;
@@ -34,11 +46,11 @@ namespace TowerDefence
             //Sätter startpunkten utanför fönstret beroende på start punkten i pathen
             if(Path.GetPos(0).X <= 0)
             {
-                Pos = new Vector2(Path.GetPos(0).X - Tex.Width / 2, Path.GetPos(0).Y);
+                Pos = new Vector2(Path.GetPos(0).X - Tex.Width, Path.GetPos(0).Y);
             }
             else if(Path.GetPos(0).Y <= 0)
             {
-                Pos = new Vector2(Path.GetPos(0).X, Path.GetPos(0).Y - Tex.Height / 2);
+                Pos = new Vector2(Path.GetPos(0).X, Path.GetPos(0).Y - Tex.Height);
             }
             else if(Path.GetPos(0).X <= Globals.WindowSize.X - Tex.Width)
             {
@@ -98,7 +110,7 @@ namespace TowerDefence
         }
 
         //Räknar ut vilket håll fienderna ska fortsätta gå när dem är vid slutet av pathen
-        public Vector2 CalcExit()
+        private Vector2 CalcExit()
         {
             Vector2 SpeedEnhancer = Path.GetPos(Path.AntalPunkter - 1) - Path.GetPos(Path.AntalPunkter - 2);
             float left = Path.GetPos(Path.AntalPunkter - 1).X;
@@ -132,7 +144,7 @@ namespace TowerDefence
         }
 
         //Uppdaterar bredden på den gröna healthbaren beroende på hur mycket liv som är kvar;
-        public void HealthBars()
+        private void HealthBars()
         {
 
             double healthBarWidth = 0;
@@ -145,5 +157,13 @@ namespace TowerDefence
             HealthBarRectGreen.Width = (int)healthBarWidth;
 
         }
+
+        internal void SetHealthFull()
+        {
+            Health = Level * 100;
+            OnePercentHP = Level;
+            SourceRowIndex -= 1;
+        }
+
     }
 }

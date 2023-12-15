@@ -9,7 +9,7 @@ namespace TowerDefence
 {
     internal abstract class IStateHandler
     {
-        internal abstract void Update(Game1 game);
-        internal abstract void Draw(Game1 game);
+        internal abstract void Update();
+        internal abstract void Draw();
     }
 }

@@ -4,14 +4,15 @@
     {
         internal enum GameState
         {
-            start, leveleditor, game, win, loss
+            start, leveleditor, game, loss, restart
         }
         static internal GameState state;
 
-        private Dictionary<GameState, IStateHandler> StateHandler;
+        internal static Dictionary<GameState, IStateHandler> StateHandler;
+
+        private Tutorials Tutorial;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Form1 Form;
 
 
         public Game1()
@@ -30,8 +31,7 @@
 
         protected override void LoadContent()
         {
-            Form = new Form1();
-            state = GameState.game;
+            state = GameState.start;
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             StateHandler = new Dictionary<GameState, IStateHandler>();
 
@@ -41,17 +41,20 @@
             Globals.Device = GraphicsDevice;
 
             Assets.SetAssets();
-            
+            Globals.WindowSize = new Vector2(Assets.StartMenu.Width, Assets.StartMenu.Height);
+            Globals.WindowRect = new Rectangle(0, 0, (int)Globals.WindowSize.X, (int)Globals.WindowSize.Y);
+
+            Tutorial = new Tutorials();
+
+
             _graphics.PreferredBackBufferWidth = Assets.StartMenu.Width;
             _graphics.PreferredBackBufferHeight = Assets.StartMenu.Height;
             _graphics.ApplyChanges();
 
-
-            Globals.WindowSize = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
-            Globals.WindowRect = new Rectangle(0, 0, (int)Globals.WindowSize.X, (int)Globals.WindowSize.Y);
             StateHandler.Add(GameState.start, new IStateStartMenu());
             StateHandler.Add(GameState.leveleditor, new IStateLevelEditor());
-            StateHandler.Add(GameState.game, new IStateGame(GraphicsDevice));
+            StateHandler.Add(GameState.game, new IStateGame());
+            StateHandler.Add(GameState.loss, new IStateLoss());
 
         }
 
@@ -60,7 +63,15 @@
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            StateHandler[state].Update(this);
+            if(state != GameState.restart)
+            {
+                StateHandler[state].Update();
+            }
+            else
+            {
+                LoadContent();
+            }
+
             Globals.Update(gameTime);
 
             base.Update(gameTime);
@@ -68,7 +79,12 @@
 
         protected override void Draw(GameTime gameTime)
         {   
-            StateHandler[state].Draw(this);
+            if(state != GameState.restart)
+            {
+                StateHandler[state].Draw();
+
+            }
+
             base.Draw(gameTime);
         }
     }

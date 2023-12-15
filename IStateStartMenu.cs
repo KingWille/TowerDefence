@@ -8,14 +8,14 @@ namespace TowerDefence
         private StartMenu menu;
         public IStateStartMenu() 
         {
-            menu = new StartMenu(Assets.StartMenu, Vector2.Zero);
+            menu = new StartMenu();
         }
 
-        internal override void Update(Game1 game)
+        internal override void Update()
         {
             menu.Update();
         }
-        internal override void Draw(Game1 game)
+        internal override void Draw()
         {
             Globals.Device.Clear(Color.CornflowerBlue);
             Globals.SpriteBatch.Begin();

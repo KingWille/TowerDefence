@@ -12,12 +12,14 @@ namespace TowerDefence
     internal class EnemyGenerator
     {
         private float EnemyReleaseTimer, EnemyReleaseInterval, EnemyReleaseMin;
-        private int EnemyLevelMax, EnemyLevelMin, NumberOfEnemiesWave, TurnTracker, EnemyTracker;
+        private int EnemyLevelMax, EnemyLevelMin, NumberOfEnemiesWave, EnemyTracker;
         private bool Upgraded;
-        public bool TurnActivated;
         private Enemies[] EnemyArray;
         private SimplePath Path;
         private Random rnd;
+
+        internal static int TurnTracker;
+        internal bool TurnActivated;
 
 
         public EnemyGenerator(SimplePath path) 
@@ -161,14 +163,26 @@ namespace TowerDefence
         {
             for(int i = 0; i < EnemyArray.Length;i++)
             {
-                if (EnemyArray[i] != null)
+                if (EnemyArray[i] != null && EnemyArray[i].Health <= 0)
                 {
-                    if (EnemyArray[i].Health <= 0)
+                    if (EnemyArray[i].IsBoss)
+                    {
+                        EnemyArray[i].Level -= 1;
+                        EnemyArray[i].SetHealthFull();
+                        if (EnemyArray[i].Level < 1)
+                        {
+                            Resources.Gold += EnemyArray[i].GoldValue;
+                            EnemyArray[i] = null;
+                        }
+                    }
+                    else
                     {
                         Resources.Gold += EnemyArray[i].GoldValue;
                         EnemyArray[i] = null;
                     }
+
                 }
+                
             }
         }
 
@@ -183,7 +197,7 @@ namespace TowerDefence
                     {
                         if (EnemyArray[i].Pos.X > Globals.WindowSize.X || EnemyArray[i].Pos.Y > Globals.WindowSize.Y || EnemyArray[i].Pos.X < 0 || EnemyArray[i].Pos.Y < 0)
                         {
-                            Resources.Lives -= 1;
+                            Resources.Lives -= EnemyArray[i].Damage;
                             EnemyArray[i] = null;
                         }
                     }

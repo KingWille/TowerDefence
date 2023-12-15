@@ -23,6 +23,8 @@
             ShowBar = Assets.ShowHideBar;
             Font = Assets.FontUI;
 
+            Target = null;
+
             ShowButtonSelector = 0;
             ShowHide = false;
             NextTurnButton = new Rectangle((int)Globals.WindowSize.X - NextTurn.Width, 0, NextTurn.Width, NextTurn.Height);

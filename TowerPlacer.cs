@@ -16,7 +16,7 @@ namespace TowerDefence
         private Water[] WaterTer;
         private Mountain[] MountainTer;
         private Path[] PathTer;
-        internal Towers? NewTower;
+        internal Towers NewTower;
 
         private InputHandler Input;
         private RenderTarget2D RegTowRT, WatTowRT, MtnTowRT;

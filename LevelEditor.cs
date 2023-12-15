@@ -385,6 +385,7 @@ namespace TowerDefence
             {
                 JsonParser.WriteJsonToFile("CreatedLevel.json", TerrainList);
                 Game1.state = Game1.GameState.start;
+                Tutorials.ButtonHit = false;
             }
         }
     }

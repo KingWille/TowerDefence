@@ -2,12 +2,12 @@
 {
     internal class Assets
     {
-        internal static Texture2D StartMenu;
+        internal static Texture2D StartMenu, TutEditor, TutGame, ContinueButton, LoseScreen, YesButton, NoButton, HSBoard;
         internal static Texture2D RangeArea, GunTower, Bullet, WaterTower, WaterSpray, SniperTower;
         internal static Texture2D GrassMap, Path, Water, Erase, Mountain, ToolBox, Sizes, Save, NextTurn, TowerBar, ShowHideBar;
         internal static Texture2D GoldCoin, Heart;
         internal static Texture2D Enemies, RedBar, GreenBar;
-        internal static SpriteFont Font, FontUI, FontResources, FontCost;
+        internal static SpriteFont Font, FontUI, FontResources, FontCost, HSFont;
         internal static void SetAssets()
         {
             StartMenu = Globals.Content.Load<Texture2D>("StartMenu");
@@ -33,11 +33,20 @@
             WaterTower = Globals.Content.Load<Texture2D>("WaterTower");
             SniperTower = Globals.Content.Load<Texture2D>("Sniper");
             WaterSpray = Globals.Content.Load<Texture2D>("WaterSpray");
+            TutEditor = Globals.Content.Load<Texture2D>("TutorialEditor");
+            TutGame = Globals.Content.Load<Texture2D>("TutorialGame");
+            ContinueButton = Globals.Content.Load<Texture2D>("ContinueButton");
+            LoseScreen = Globals.Content.Load<Texture2D>("LoseScreenTD");
+            YesButton = Globals.Content.Load<Texture2D>("YesButton");
+            NoButton = Globals.Content.Load<Texture2D>("NoButton");
+            HSBoard = Globals.Content.Load<Texture2D>("Wood_Panel");
+
 
             Font = Globals.Content.Load<SpriteFont>("Font");
             FontUI = Globals.Content.Load<SpriteFont>("FontUI");
             FontResources = Globals.Content.Load<SpriteFont>("FontResources");
             FontCost = Globals.Content.Load<SpriteFont>("CostFont");
+            HSFont = Globals.Content.Load<SpriteFont>("HSFont");
         }
     }
 }
