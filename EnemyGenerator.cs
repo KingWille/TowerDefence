@@ -15,6 +15,7 @@ namespace TowerDefence
         private int EnemyLevelMax, EnemyLevelMin, NumberOfEnemiesWave, EnemyTracker;
         private bool Upgraded;
         private Enemies[] EnemyArray;
+        private List<ParticleGenerator> PG;
         private SimplePath Path;
         private Random rnd;
 
@@ -39,6 +40,7 @@ namespace TowerDefence
 
             EnemyArray = new Enemies[NumberOfEnemiesWave];
             rnd = new Random();
+            PG = new List<ParticleGenerator>();
         }
 
         public void Update()
@@ -66,6 +68,11 @@ namespace TowerDefence
             {
                 ReleaseEnemies();
             }
+
+            foreach(var p in PG)
+            {
+                p.Update();
+            }
         }
 
         public void Draw()
@@ -76,6 +83,11 @@ namespace TowerDefence
                 {
                     e.Draw();
                 }
+            }
+
+            foreach(var p in PG)
+            {
+                p.Draw();
             }
 
         }
@@ -169,16 +181,21 @@ namespace TowerDefence
                     {
                         EnemyArray[i].Level -= 1;
                         EnemyArray[i].SetHealthFull();
+
                         if (EnemyArray[i].Level < 1)
                         {
+                            PG.Add(new ParticleGenerator(EnemyArray[i].Pos));
                             Resources.Gold += EnemyArray[i].GoldValue;
                             EnemyArray[i] = null;
+                            Assets.EnemyKilled.Play();
                         }
                     }
                     else
                     {
+                        PG.Add(new ParticleGenerator(EnemyArray[i].Pos));
                         Resources.Gold += EnemyArray[i].GoldValue;
                         EnemyArray[i] = null;
+                        Assets.EnemyKilled.Play();
                     }
 
                 }
@@ -198,6 +215,7 @@ namespace TowerDefence
                         if (EnemyArray[i].Pos.X > Globals.WindowSize.X || EnemyArray[i].Pos.Y > Globals.WindowSize.Y || EnemyArray[i].Pos.X < 0 || EnemyArray[i].Pos.Y < 0)
                         {
                             Resources.Lives -= EnemyArray[i].Damage;
+                            Assets.LoseLife.Play();
                             EnemyArray[i] = null;
                         }
                     }

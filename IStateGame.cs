@@ -10,9 +10,6 @@ namespace TowerDefence
 {
     internal class IStateGame : IStateHandler
     {
-        private Path[] PathArray;
-        private Water[] WaterArray;
-        private Mountain[] MountainArray;
         private SimplePath Path;
         private EnemyGenerator EG;
         private UserInterface UI;
@@ -67,14 +64,17 @@ namespace TowerDefence
         //Hämtar information från Json filen
         public void ReadFromJson(string fileName)
         {
+            int indexmultiplier1 = 0;
+            int indexmultiplier2 = 0;
+
             List<Rectangle> Paths = JsonParser.GetRectanglesList(fileName, "Path");
-            PathArray = new Path[Paths.Count];
+            Path[] PathArray = new Path[Paths.Count];
 
             List<Rectangle> WaterTerrain = JsonParser.GetRectanglesList(fileName, "WaterTerrain");
-            WaterArray = new Water[WaterTerrain.Count];
+            Water[] WaterArray = new Water[WaterTerrain.Count];
 
             List<Rectangle> Mountains = JsonParser.GetRectanglesList(fileName, "MountainTerrain");
-            MountainArray = new Mountain[Mountains.Count()];
+            Mountain[] MountainArray = new Mountain[Mountains.Count()];
 
             //Sätter pathen
             for (int i = 0; i < Paths.Count; i++)
@@ -84,32 +84,7 @@ namespace TowerDefence
                 Path.AddPoint(new Vector2(path.Rect.X, path.Rect.Y));
             }
 
-            DoublePath();
-
-            //Hämtar all vattenterräng
-            for (int i = 0; i < WaterTerrain.Count; i++)
-            {
-                Water water = new Water(WaterTerrain[i]);
-                WaterArray[i] = water;
-            }
-
-            //Hämtar all bergsterräng
-            for (int i = 0; i < Mountains.Count(); i++)
-            {
-                Mountain mountain = new Mountain(Mountains[i]);
-                MountainArray[i] = mountain;
-            }
-
-            UI.SetTerArrays(WaterArray, MountainArray, PathArray);
-            UI.DrawAllRT();
-        }
-
-        //Dubblar antalet punkter i pathen för en mer smooth gång för fienderna
-        private void DoublePath()
-        {
-            int indexmultiplier1 = 0;
-            int indexmultiplier2 = 0;
-
+            //Dubblar antalet punkter i pathen för en mer smooth gång för fienderna
             for (int i = 0; i < PathArray.Length; i++)
             {
                 if (i == 1)
@@ -133,6 +108,23 @@ namespace TowerDefence
                     break;
                 }
             }
+
+            //Hämtar all vattenterräng
+            for (int i = 0; i < WaterTerrain.Count; i++)
+            {
+                Water water = new Water(WaterTerrain[i]);
+                WaterArray[i] = water;
+            }
+
+            //Hämtar all bergsterräng
+            for (int i = 0; i < Mountains.Count(); i++)
+            {
+                Mountain mountain = new Mountain(Mountains[i]);
+                MountainArray[i] = mountain;
+            }
+
+            UI.SetTerArrays(WaterArray, MountainArray, PathArray);
+            UI.DrawAllRT();
         }
     }
 }

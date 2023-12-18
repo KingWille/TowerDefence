@@ -39,6 +39,7 @@
 
         public void Update()
         {
+            Input.GetMouseState();
             ShowHideBar();
             EnemyArray = EG.GetEnemyArray();
 
@@ -68,9 +69,10 @@
             Vector2 measuredString = Font.MeasureString("Next Turn");
             Vector2 stringPos = new Vector2(NextTurnButton.X + NextTurnButton.Width / 2 - measuredString.X / 2, NextTurnButton.Height / 2 - measuredString.Y / 2);
 
-            if (NextTurnButton.Contains(mouse.Position) && mouse.LeftButton == ButtonState.Pressed)
+            if (NextTurnButton.Contains(Input.currentMouseState.Position) && Input.HasBeenClicked())
             {
                 EG.TurnActivated = true;
+                Assets.SelectMenu.Play();
             }
 
             Globals.SpriteBatch.Draw(NextTurn, NextTurnButton, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.9f);
@@ -80,17 +82,18 @@
         //Visar och gömmer torn menyn
         private void ShowHideBar()
         {
-            Input.GetMouseState();
 
             if(ShowButtonPos.Contains(Input.currentMouseState.Position) && Input.HasBeenClicked())
             {
                 if (!ShowHide)
                 {
                     ShowHide = true;
+                    Assets.SelectMenu.Play();
                 }
                 else
                 {
                     ShowHide = false;
+                    Assets.SelectMenu.Play();
                 }
             }
 

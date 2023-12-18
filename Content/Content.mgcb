@@ -13,6 +13,36 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Bakgrundsmusik.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Bakgrundsmusik.mp3
+
+#begin BombAmmo.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BombAmmo.png
+
+#begin BombTower.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BombTower.png
+
 #begin Bullet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -55,6 +85,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Enemies.png
+
+#begin EnemyDying.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:EnemyDying.wav
 
 #begin Erase.png
 /importer:TextureImporter
@@ -125,6 +161,12 @@
 /processorParam:TextureFormat=Color
 /build:GreenHPBar.png
 
+#begin Gunshot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Gunshot.wav
+
 #begin GunTower.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -156,6 +198,12 @@
 /processorParam:TextureFormat=Compressed
 /build:HSFont.spritefont
 
+#begin LoseHitPoints.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:LoseHitPoints.wav
+
 #begin LoseScreenTD.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -167,6 +215,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:LoseScreenTD.png
+
+#begin Mudshot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Mudshot.png
+
+#begin MudTower.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:MudTower.png
 
 #begin NextTurnButton.png
 /importer:TextureImporter
@@ -191,6 +263,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:NoButton.png
+
+#begin Particle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Particle.png
 
 #begin RangeArea.png
 /importer:TextureImporter
@@ -239,6 +323,24 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:SaveButton.png
+
+#begin SelectMenuSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SelectMenuSound.wav
+
+#begin SentryTower.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SentryTower.png
 
 #begin ShowHideBarButton.png
 /importer:TextureImporter
@@ -359,6 +461,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:WaterSpray.png
+
+#begin WaterSpraying.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:WaterSpraying.wav
 
 #begin WaterTile.png
 /importer:TextureImporter

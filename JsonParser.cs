@@ -79,6 +79,8 @@ namespace TowerDefence
                 rectList.Add(rect);
             }
 
+            wholeJFileObj = null;
+
             return rectList;
         }
 

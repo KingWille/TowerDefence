@@ -33,6 +33,7 @@ namespace TowerDefence
 
             if(Button.Contains(Input.currentMouseState.Position) && Input.HasBeenClicked())
             {
+                Assets.SelectMenu.Play();
                 ButtonHit = true;
             }
         }

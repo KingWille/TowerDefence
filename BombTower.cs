@@ -1,21 +1,21 @@
 ﻿namespace TowerDefence
 {
-    internal class SniperTower : Towers
+    internal class BombTower : Towers
     {
-        public SniperTower(Vector2 pos) : base()
+        public BombTower(Vector2 pos) : base()
         {
             Pos = pos;
 
-            Tex = Assets.SniperTower;
-            BulletTex = Assets.Bullet;
+            Tex = Assets.BombTower;
+            BulletTex = Assets.Bomb;
             SoundEffect = Assets.Gunshot;
 
-            Damage = 50;
+            Damage = 100;
             AttackSpd = 2f;
-            Range = 2000;
+            Range = 150f;
             ShootInterval = AttackSpd;
-            Scale = 1;
-            Cost = 400;
+            Scale = (int)Range / 50;
+            Cost = 600;
 
             Rect = new Rectangle((int)Pos.X, (int)Pos.Y, Tex.Width, Tex.Height);
 

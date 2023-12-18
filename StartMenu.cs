@@ -107,15 +107,18 @@ namespace TowerDefence
             if(CheckRect1.Contains(Input.currentMouseState.Position) && Input.HasBeenClicked())
             {
                 (Game1.StateHandler[Game1.GameState.game] as IStateGame).ReadFromJson("Level.json");
+                Assets.SelectMenu.Play();
                 Game1.state = Game1.GameState.game;
             }
             else if (CheckRect2.Contains(Input.currentMouseState.Position) && Input.HasBeenClicked())
             {
                 (Game1.StateHandler[Game1.GameState.game] as IStateGame).ReadFromJson("CreatedLevel.json");
+                Assets.SelectMenu.Play();
                 Game1.state = Game1.GameState.game;
             }
             else if (CheckRect3.Contains(Input.currentMouseState.Position) && Input.HasBeenClicked())
             {
+                Assets.SelectMenu.Play();
                 Game1.state = Game1.GameState.leveleditor;
             }
 

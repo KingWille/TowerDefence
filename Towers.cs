@@ -1,4 +1,5 @@
-﻿using SharpDX.Direct2D1;
+﻿using Microsoft.Xna.Framework.Audio;
+using SharpDX.Direct2D1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace TowerDefence
         internal Rectangle Rect;
         internal Vector2 Pos;
         internal Color RangeColor;
+        internal SoundEffect SoundEffect;
 
         internal Texture2D Tex, BulletTex, RangeArea;
         internal Enemies[] EnemyArray;
@@ -110,6 +112,7 @@ namespace TowerDefence
                 if (Target != null)
                 {
                     Attacks.Add(new RangedAttacks(Damage, Pos, Target, BulletTex));
+                    SoundEffect.Play(0.05f, 0f, 0f);
                 }
             }
         }
@@ -136,8 +139,6 @@ namespace TowerDefence
                 }
             }
             
-
-
             if (Target == null)
             {
                 Draw();

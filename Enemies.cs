@@ -1,17 +1,19 @@
 ﻿using Spline;
+using System.Diagnostics;
 
 namespace TowerDefence
 {
     internal class Enemies
     {
-        private int SourceRowIndex, OnePercentHP;
-        private float Speed, StartAngle;
+        private int SourceRowIndex, SourceColIndex, OnePercentHP;
+        private float Speed, StartAngle, AnimTimer, AnimInterval, SlowedTimer, SlowedInterval;
         private Texture2D Tex, RedBar, GreenBar;
         private Rectangle HealthBarRectRed, HealthBarRectGreen;
         private Vector2 Origin;
         private SimplePath Path;
 
         internal bool IsBoss{get; private set;}
+        internal bool Slow;
         internal int Level, Health, GoldValue, Damage;
         internal float PathIndex;
         internal Rectangle Rect;
@@ -24,11 +26,17 @@ namespace TowerDefence
             Health = Level * 100;
             OnePercentHP = Health / 100;
 
+            AnimTimer = 0.4f;
+            AnimInterval = AnimTimer;
+            SlowedTimer = 1f;
+            SlowedInterval = SlowedTimer;
+
             GoldValue = Level * 30;
             SourceRowIndex = index;
+            SourceColIndex = 0;
             Path = path;
             PathIndex = 0;
-            Speed = 0.5f;
+            Speed = 1f;
 
             if(Level == 5)
             {
@@ -98,13 +106,17 @@ namespace TowerDefence
             HealthBarRectRed.X = (int)Pos.X - RedBar.Width / 2;
             HealthBarRectRed.Y = (int)Pos.Y - RedBar.Height * 2;
 
+            WalkingAnim();
+
             //uppdaterar healthbaren beroende på hur mycket liv fienden har kvar
             HealthBars();
+
+            Slowed();
         }
 
         internal void Draw()
         {
-            Globals.SpriteBatch.Draw(Tex, Pos, new Rectangle(0, SourceRowIndex * Tex.Width / 2, Tex.Width / 2, Tex.Width / 2), Color.White, StartAngle, Origin, 1f, SpriteEffects.None, 1f);
+            Globals.SpriteBatch.Draw(Tex, Pos, new Rectangle(SourceColIndex * Tex.Width / 2, SourceRowIndex * Tex.Width / 2, Tex.Width / 2, Tex.Width / 2), Color.White, StartAngle, Origin, 1f, SpriteEffects.None, 1f);
             Globals.SpriteBatch.Draw(RedBar, HealthBarRectRed, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.9f);
             Globals.SpriteBatch.Draw(GreenBar, HealthBarRectGreen, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 1f);
         }
@@ -158,6 +170,27 @@ namespace TowerDefence
 
         }
 
+        //Gående animationen för fiender
+        private void WalkingAnim()
+        {
+            AnimTimer -= Globals.DeltaTime;
+
+            if(AnimTimer <= 0)
+            {
+                AnimTimer = AnimInterval;
+
+                if(SourceColIndex == 0)
+                {
+                    SourceColIndex = 1;
+                }
+                else
+                {
+                    SourceColIndex = 0;
+                }
+            }
+        }
+
+        //Sätter fiendens Health till fullt samt går ner en index på vilken typ av fiende det är
         internal void SetHealthFull()
         {
             Health = Level * 100;
@@ -165,5 +198,23 @@ namespace TowerDefence
             SourceRowIndex -= 1;
         }
 
+        //Saktnar ner fienderna när de träffas av mudtower
+        internal void Slowed()
+        {
+            if(Slow)
+            {
+                Speed = 0.5f;
+                SlowedTimer -= Globals.DeltaTime;
+
+                if(SlowedTimer <= 0)
+                {
+                    SlowedTimer = SlowedInterval;
+
+                    Speed = 1f;
+
+                    Slow = false;
+                }
+            }
+        }
     }
 }

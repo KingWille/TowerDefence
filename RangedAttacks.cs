@@ -58,6 +58,11 @@ namespace TowerDefence
             if(Target.Rect.Intersects(Rect))
             {
                 Target.Health -= Dmg;
+
+                if(Tex == Assets.MudSpray)
+                {
+                    Target.Slow = true;
+                }
                 return true;
             }
 

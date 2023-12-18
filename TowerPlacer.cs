@@ -39,6 +39,9 @@ namespace TowerDefence
             TowersMenu.Add(new GunTower(new Vector2(barPos.X + XPosLeft, barPos.Y + FirstSpacer)));
             TowersMenu.Add(new WaterSprayTower(new Vector2(barPos.X + XPosRight, barPos.Y + FirstSpacer)));
             TowersMenu.Add(new SniperTower(new Vector2(barPos.X + XPosLeft, barPos.Y + FirstSpacer + Spacer)));
+            TowersMenu.Add(new MudTower(new Vector2(barPos.X + XPosRight, barPos.Y + FirstSpacer + Spacer)));
+            TowersMenu.Add(new BombTower(new Vector2(barPos.X + XPosLeft, barPos.Y + FirstSpacer + Spacer * 2)));
+            TowersMenu.Add(new SentryTower(new Vector2(barPos.X + XPosRight, barPos.Y + FirstSpacer + Spacer * 2)));
 
             RegTowRT = new RenderTarget2D(Globals.Device, (int)Globals.WindowSize.X, (int)Globals.WindowSize.Y);
             WatTowRT = new RenderTarget2D(Globals.Device, (int)Globals.WindowSize.X, (int)Globals.WindowSize.Y);
@@ -125,21 +128,31 @@ namespace TowerDefence
                     if(t is GunTower && Resources.Gold >= TowersMenu[0].Cost)
                     {
                         NewTower = new GunTower(new Vector2(Input.currentMouseState.X, Input.currentMouseState.Y));
-                        NewTower.Selected = true;
                     }
                     else if(t is WaterSprayTower && Resources.Gold >= TowersMenu[1].Cost)
                     {
                         NewTower = new WaterSprayTower(new Vector2(Input.currentMouseState.X, Input.currentMouseState.Y));
-                        NewTower.Selected = true;
                     }
                     else if(t is SniperTower && Resources.Gold >= TowersMenu[2].Cost)
                     {
                         NewTower = new SniperTower(new Vector2(Input.currentMouseState.X, Input.currentMouseState.Y));
-                        NewTower.Selected = true;
+                    }
+                    else if(t is MudTower && Resources.Gold >= TowersMenu[3].Cost)
+                    {
+                        NewTower = new MudTower(new Vector2(Input.currentMouseState.X, Input.currentMouseState.Y));
+                    }
+                    else if(t is BombTower && Resources.Gold >= TowersMenu[4].Cost)
+                    {
+                        NewTower = new BombTower(new Vector2(Input.currentMouseState.X, Input.currentMouseState.Y));
+                    }
+                    else if(t is SentryTower && Resources.Gold >= TowersMenu[5].Cost)
+                    {
+                        NewTower = new SentryTower(new Vector2(Input.currentMouseState.X, Input.currentMouseState.Y));
                     }
 
-                    if(NewTower != null)
+                    if (NewTower != null)
                     {
+                        NewTower.Selected = true;
                         Resources.Gold -= NewTower.Cost;
                     }
                 }
@@ -241,7 +254,7 @@ namespace TowerDefence
 
             if (Globals.WindowRect.Contains(t.Rect))
             {
-                if (t is GunTower)
+                if (t is GunTower || t is MudTower || t is BombTower)
                 {
                     RegTowRT.GetData(0, t.Rect, pixels, 0, pixels.Length);
                 }
@@ -249,7 +262,7 @@ namespace TowerDefence
                 {
                     WatTowRT.GetData(0, t.Rect, pixels, 0, pixels.Length);
                 }
-                else if(t is SniperTower)
+                else if(t is SniperTower || t is SentryTower)
                 {
                     MtnTowRT.GetData(0, t.Rect, pixels, 0, pixels.Length);
                 }
@@ -261,7 +274,7 @@ namespace TowerDefence
             }
 
             //Kollar om tornet är på något transparent
-            if(t is GunTower)
+            if(t is GunTower || t is MudTower || t is BombTower)
             {
                 for (int i = 0; i < pixels.Length; ++i)
                 {

@@ -89,6 +89,7 @@ namespace TowerDefence
             UpdateNewPosition();
             PlaceTerrain();
             SaveMap();
+            Debug.WriteLine(LastPointPlaced);
         }
         internal void StandardDrawing(Texture2D tex, Vector2 pos, float layer, Rectangle? source = null)
         {
@@ -289,7 +290,7 @@ namespace TowerDefence
                         break;
                     case SelectedTerrain.Erase:
                         //Tar bort terräng när man använder suddgummit
-                        for(int i = 0; i < TerrainList.Count; i++)
+                        for (int i = 0; i < TerrainList.Count; i++)
                         {
                             if (NewEraser.Contains(TerrainList[i].Rect.Location) && !(TerrainList[i] is Path))
                             {
@@ -303,6 +304,7 @@ namespace TowerDefence
                             if (NewEraser.Contains(LastPath.Rect.Location))
                             {
                                 TerrainList.Remove(LastPath);
+                                LastPointPlaced = false;
 
                                 for (int i = TerrainList.Count - 1; i >= 0; i--)
                                 {
@@ -311,13 +313,22 @@ namespace TowerDefence
                                         LastPath = (Path)TerrainList[i];
                                         break;
                                     }
+                                    else
+                                    {
+                                        
+                                        FirstPointPlaced = false;
+                                        LastPath = null;
+                                    }
                                 }
+                            }
+
+                            if(TerrainList.Count == 0)
+                            {
+                                FirstPointPlaced = false;
                             }
                         }
                         break;
                 }
-                Debug.WriteLine(SaveButton);
-
             }
         }
 
@@ -384,8 +395,9 @@ namespace TowerDefence
             if (SaveButton.Contains(mouse.Position) && mouse.LeftButton == ButtonState.Pressed)
             {
                 JsonParser.WriteJsonToFile("CreatedLevel.json", TerrainList);
-                Game1.state = Game1.GameState.start;
+                TerrainList.Clear();
                 Tutorials.ButtonHit = false;
+                Game1.state = Game1.GameState.start;
             }
         }
     }
