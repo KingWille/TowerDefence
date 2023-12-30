@@ -64,7 +64,7 @@ namespace TowerDefence
         //Hämtar information från Json filen
         public void ReadFromJson(string fileName)
         {
-            int indexmultiplier1 = 0;
+            int indexmultiplier1 = -1;
             int indexmultiplier2 = 0;
 
             List<Rectangle> Paths = JsonParser.GetRectanglesList(fileName, "Path");
@@ -85,7 +85,20 @@ namespace TowerDefence
             }
 
             //Dubblar antalet punkter i pathen för en mer smooth gång för fienderna
-            for (int i = 0; i < PathArray.Length; i++)
+            for(int i = 1; i < PathArray.Length; i++)
+            {
+                Path.InsertPoint((Path.GetPos(i + indexmultiplier1) + Path.GetPos(i + indexmultiplier2)) / 2, i + indexmultiplier2);
+
+                indexmultiplier1++;
+                indexmultiplier2++;
+
+                if(i + indexmultiplier2 > PathArray.Length)
+                {
+                    break;
+                }
+            }
+
+            /*for (int i = 0; i < PathArray.Length; i++)
             {
                 if (i == 1)
                 {
@@ -107,7 +120,7 @@ namespace TowerDefence
                 {
                     break;
                 }
-            }
+            }*/
 
             //Hämtar all vattenterräng
             for (int i = 0; i < WaterTerrain.Count; i++)

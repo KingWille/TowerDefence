@@ -30,7 +30,7 @@ namespace TowerDefence
             Upgraded = true;
             EnemyReleaseInterval = 1;
             EnemyReleaseTimer = EnemyReleaseInterval;
-            EnemyReleaseMin = 0.3f;
+            EnemyReleaseMin = 0.1f;
             EnemyLevelMax = 0;
             EnemyLevelMin = 0;
             EnemyTracker = 0;

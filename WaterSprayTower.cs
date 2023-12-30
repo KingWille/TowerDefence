@@ -15,7 +15,7 @@
             Range = 150f;
             ShootInterval = AttackSpd;
             Scale = (int)Range / 50;
-            Cost = 250;
+            Cost = 1000;
 
             Rect = new Rectangle((int)Pos.X, (int)Pos.Y, Tex.Width, Tex.Height);
         }

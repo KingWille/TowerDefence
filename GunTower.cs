@@ -10,7 +10,7 @@
             BulletTex = Assets.Bullet;
             SoundEffect = Assets.Gunshot;
 
-            Damage = 20;
+            Damage = 40;
             AttackSpd = 0.6f;
             Range = 150f;
             ShootInterval = AttackSpd;

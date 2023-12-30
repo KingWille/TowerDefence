@@ -59,13 +59,12 @@
             Globals.SpriteBatch.Draw(Bar, BarPos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
 
             Placer.Draw();
+            DrawCurrentTurn();
         }
 
         //Sätter igång nästa våg av fiender när man trycker på knappen
-        public void NextWave()
+        private void NextWave()
         {
-            var mouse = Mouse.GetState();
-
             Vector2 measuredString = Font.MeasureString("Next Turn");
             Vector2 stringPos = new Vector2(NextTurnButton.X + NextTurnButton.Width / 2 - measuredString.X / 2, NextTurnButton.Height / 2 - measuredString.Y / 2);
 
@@ -77,6 +76,16 @@
 
             Globals.SpriteBatch.Draw(NextTurn, NextTurnButton, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.9f);
             Globals.SpriteBatch.DrawString(Font, "Next Turn", stringPos, Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+        }
+
+        //Ritar ut vilken runda man är på
+        private void DrawCurrentTurn()
+        {
+            string text = "Turn: " + EnemyGenerator.TurnTracker.ToString();
+
+            Vector2 measString = Font.MeasureString(text);
+
+            Globals.SpriteBatch.DrawString(Assets.HSFont, text, new Vector2(Globals.WindowSize.X / 2 - measString.X / 2, 3), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
         }
 
         //Visar och gömmer torn menyn
